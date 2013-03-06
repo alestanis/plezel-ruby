@@ -16,6 +16,10 @@ describe "check" do
     it "response is not empty" do
       @res.should_not be_nil
     end
+
+    it "returns forbidden" do
+      @res[:status].should eql("forbidden")
+    end
   end
 
 end
