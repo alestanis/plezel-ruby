@@ -87,7 +87,7 @@ module Plezel
     end
 
     request.basic_auth(api_key, "")
-    request.body = Plezel::Utils.querify(options)
+    request.set_form_data(options)
     http.request(request)
   end
 end

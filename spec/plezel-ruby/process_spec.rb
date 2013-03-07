@@ -14,7 +14,7 @@ describe "process" do
 
     it "sends the right request" do
       WebMock.should have_requested(:post, /.*#{@api_key}.*\/card\/process.*/)
-        .with(body: "token=#{@grant_token_right}&responses[QuestionValidator]=The%20answer&responses[GoogleOathValidator]=123456")
+        .with(body: "token=grant_right&responses=%7B%22QuestionValidator%22%3D%3E%22The+answer%22%2C+%22GoogleOathValidator%22%3D%3E%22123456%22%7D")
     end
 
     it "response is not empty" do

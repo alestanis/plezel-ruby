@@ -2,15 +2,14 @@ module Plezel
   module Utils
     def self.querify(hash, parent = "")
       res = ""
+      parent = parent.to_s
       hash.each do |k, v|
-        if v.class == Hash
-
-          res += "&" + querify(v, parent.empty? ? k : "#{parent}[#{k}]")
-        else
           # URI.escape does not work on numbers
           k = k.to_s
           v = v.to_s
-          parent = parent.to_s
+        if v.class == Hash
+          res += "&" + querify(v, parent.empty? ? k : "#{parent}[#{k}]")
+        else
           if parent.empty?
             res += "&#{URI.escape k}=#{URI.escape v}"
           else

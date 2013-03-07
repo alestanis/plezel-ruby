@@ -8,9 +8,13 @@ RSpec.configure do |config|
     ## Parameters
     @api_key = "developer_api_key"
     @nonexistent_card_number = "card_nonexistent"
-    @locked_card_number = "card_locked"
-    @unlocked_card_number = "card_unlocked"
-    @validation_card_number = "card_validation"
+    # Test numbers
+    @locked_card_number = "4485171654136998"
+    @unlocked_card_number = "5292765682753540"
+    @validation_card_number = "341269125052836"
+    # @locked_card_number = "card_locked"
+    # @unlocked_card_number = "card_unlocked"
+    # @validation_card_number = "card_validation"
 
     @unknown_grant_token = "grant_unknown"
     @grant_token_wrong = "grant_wrong"
@@ -18,7 +22,10 @@ RSpec.configure do |config|
     @grant_token_expired = "grant_expired"
     @grant_token_already_validated = "grant_already_validated"
     @grant_token_too_many_trials = "grant_too_many_trials"
-    
+ 
+  # end
+  # def not_executed
+ 
     ## /check
     # Non-existent card
     stub_http_request(:post, /.*#{@api_key}.*check.*/)
