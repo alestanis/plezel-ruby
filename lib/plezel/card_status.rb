@@ -13,7 +13,6 @@ module Plezel
 
       # Fill the validators object
       if @status == :validation
-        print contents[:data][:grant]
         @grant = Grant.new(contents[:data][:grant])
       end
     end
