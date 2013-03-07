@@ -9,12 +9,12 @@ describe "process" do
         "QuestionValidator" => "The answer",
         "GoogleOathValidator" => "123456"
       }
-      @res = Plezel.process(@stub_grant_token_right, @responses)
+      @res = Plezel.process(@grant_token_right, @responses)
     end
 
     it "sends the right request" do
       WebMock.should have_requested(:post, /.*#{@api_key}.*\/card\/process.*/)
-        .with(body: "token=#{@stub_grant_token_right}&responses[QuestionValidator]=The%20answer&responses[GoogleOathValidator]=123456")
+        .with(body: "token=#{@grant_token_right}&responses[QuestionValidator]=The%20answer&responses[GoogleOathValidator]=123456")
     end
 
     it "response is not empty" do

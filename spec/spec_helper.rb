@@ -13,11 +13,11 @@ RSpec.configure do |config|
     @validation_card_number = "card_validation"
 
     @unknown_grant_token = "grant_unknown"
-    @stub_grant_token_wrong = "grant_wrong"
-    @stub_grant_token_right = "grant_right"
-    @stub_grant_token_expired = "grant_expired"
-    @stub_grant_token_already_validated = "grant_already_validated"
-    @stub_grant_token_too_many_trials = "grant_too_many_trials"
+    @grant_token_wrong = "grant_wrong"
+    @grant_token_right = "grant_right"
+    @grant_token_expired = "grant_expired"
+    @grant_token_already_validated = "grant_already_validated"
+    @grant_token_too_many_trials = "grant_too_many_trials"
     
     ## /check
     # Non-existent card
@@ -133,7 +133,7 @@ RSpec.configure do |config|
     # Wrong answers
     stub_http_request(:post, /.*#{@api_key}.*process.*/)
       .with(
-      :body => /token=#{@stub_grant_token_wrong}/)
+      :body => /token=#{@grant_token_wrong}/)
       .to_return({
         body: {
           status: "forbidden",
@@ -163,7 +163,7 @@ RSpec.configure do |config|
     # Valid answers
     stub_http_request(:post, /.*#{@api_key}.*process.*/)
       .with(
-      :body => /token=#{@stub_grant_token_right}/)
+      :body => /token=#{@grant_token_right}/)
       .to_return({
         body: {
           status: "ok",
@@ -186,7 +186,7 @@ RSpec.configure do |config|
     # Already validated answers
     stub_http_request(:post, /.*#{@api_key}.*process.*/)
       .with(
-      :body => /token=#{@stub_grant_token_already_validated}/)
+      :body => /token=#{@grant_token_already_validated}/)
       .to_return({
         body: {
           status: "unprocessable_entity",
@@ -203,7 +203,7 @@ RSpec.configure do |config|
     # Expired grant
     stub_http_request(:post, /.*#{@api_key}.*process.*/)
       .with(
-      :body => /token=#{@stub_grant_token_expired}/)
+      :body => /token=#{@grant_token_expired}/)
       .to_return({
         body: {
           status: "forbidden",
@@ -230,7 +230,7 @@ RSpec.configure do |config|
     # Too many trials
     stub_http_request(:post, /.*#{@api_key}.*process.*/)
       .with(
-      :body => /token=#{@stub_grant_token_too_many_trials}/)
+      :body => /token=#{@grant_token_too_many_trials}/)
       .to_return({
         body: {
           status: "unprocessable_entity",
