@@ -30,14 +30,10 @@ module Plezel
       amount: amount,
       currency: currency
     }
-    request('post', '/v1/card/check', api_key, params)
+    res = request('post', '/v1/card/check', api_key, params)
 
-    # uri = URI.parse(api_url('/v1/card/check'))
-    # http = Net::HTTP.new(uri.host, uri.port)
-    # request = Net::HTTP::Post.new(uri.request_uri)
-    # request.basic_auth(api_key, "")
-    # request.set_form_data(params)
-    # http.request(request)
+    # TODO
+    res
   end
 
   def self.process(token, responses, api_key = nil)
@@ -45,15 +41,19 @@ module Plezel
       token: token,
       responses: responses
     }
-    request('post', '/v1/card/process', api_key, params)
+    res = request('post', '/v1/card/process', api_key, params)
+
+    # TODO
+    res
   end
 
   def self.request(method, url, api_key = nil, params = {})
     api_key ||= @api_key
     begin
       response = http_request(method, api_url(url), api_key, params)
-    rescue
+    rescue => e
       # TODO
+      raise e
     end
 
     # puts "Response: #{response}"

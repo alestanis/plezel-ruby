@@ -5,11 +5,25 @@ RSpec.configure do |config|
   config.before do
     ### Stub requests to avoid hitting the API
 
+    ## Parameters
+    @api_key = "developer_api_key"
+    @nonexistent_card_number = "card_nonexistent"
+    @locked_card_number = "card_locked"
+    @unlocked_card_number = "card_unlocked"
+    @validation_card_number = "card_validation"
+
+    @unknown_grant_token = "grant_unknown"
+    @stub_grant_token_wrong = "grant_wrong"
+    @stub_grant_token_right = "grant_right"
+    @stub_grant_token_expired = "grant_expired"
+    @stub_grant_token_already_validated = "grant_already_validated"
+    @stub_grant_token_too_many_trials = "grant_too_many_trials"
+    
     ## /check
     # Non-existent card
-    stub_http_request(:post, /.*developer_api_key.*check.*/)
+    stub_http_request(:post, /.*#{@api_key}.*check.*/)
       .with(
-      :body => /card=nonexistent_card_number/)
+      :body => /card=#{@nonexistent_card_number}/)
       .to_return({
         body: {
           status: "not_found",
@@ -21,9 +35,9 @@ RSpec.configure do |config|
       })
 
     # Locked card
-    stub_http_request(:post, /.*developer_api_key.*check.*/)
+    stub_http_request(:post, /.*#{@api_key}.*check.*/)
       .with(
-      :body => /card=locked_card_number/)
+      :body => /card=#{@locked_card_number}/)
       .to_return({
         body: {
           status: "forbidden",
@@ -36,9 +50,9 @@ RSpec.configure do |config|
       })
 
     # Unlocked card
-    stub_http_request(:post, /.*developer_api_key.*check.*/)
+    stub_http_request(:post, /.*#{@api_key}.*check.*/)
       .with(
-      :body => /card=unlocked_card_number/)
+      :body => /card=#{@unlocked_card_number}/)
       .to_return({
         body: {
           status: "ok",
@@ -51,9 +65,9 @@ RSpec.configure do |config|
       })
 
     # Validation card
-    stub_http_request(:post, /.*developer_api_key.*check.*/)
+    stub_http_request(:post, /.*#{@api_key}.*check.*/)
       .with(
-      :body => /card=validation_card_number/)
+      :body => /card=#{@validation_card_number}/)
       .to_return({
         body: {
           status: "ok",
@@ -98,9 +112,9 @@ RSpec.configure do |config|
 
     ## /process
     # Unexistent grant
-    stub_http_request(:post, /.*developer_api_key.*process.*/)
+    stub_http_request(:post, /.*#{@api_key}.*process.*/)
       .with(
-      :body => /token=unknown_grant_token/)
+      :body => /token=#{@unknown_grant_token}/)
       .to_return({
         body: {
           status: "not_found",
@@ -117,9 +131,9 @@ RSpec.configure do |config|
       })
 
     # Wrong answers
-    stub_http_request(:post, /.*developer_api_key.*process.*/)
+    stub_http_request(:post, /.*#{@api_key}.*process.*/)
       .with(
-      :body => /token=stub_grant_token_wrong/)
+      :body => /token=#{@stub_grant_token_wrong}/)
       .to_return({
         body: {
           status: "forbidden",
@@ -147,9 +161,9 @@ RSpec.configure do |config|
       })
 
     # Valid answers
-    stub_http_request(:post, /.*developer_api_key.*process.*/)
+    stub_http_request(:post, /.*#{@api_key}.*process.*/)
       .with(
-      :body => /token=stub_grant_token_right/)
+      :body => /token=#{@stub_grant_token_right}/)
       .to_return({
         body: {
           status: "ok",
@@ -170,9 +184,9 @@ RSpec.configure do |config|
       })
 
     # Already validated answers
-    stub_http_request(:post, /.*developer_api_key.*process.*/)
+    stub_http_request(:post, /.*#{@api_key}.*process.*/)
       .with(
-      :body => /token=stub_grant_token_already_validated/)
+      :body => /token=#{@stub_grant_token_already_validated}/)
       .to_return({
         body: {
           status: "unprocessable_entity",
@@ -187,9 +201,9 @@ RSpec.configure do |config|
       })
     
     # Expired grant
-    stub_http_request(:post, /.*developer_api_key.*process.*/)
+    stub_http_request(:post, /.*#{@api_key}.*process.*/)
       .with(
-      :body => /token=stub_grant_token_expired/)
+      :body => /token=#{@stub_grant_token_expired}/)
       .to_return({
         body: {
           status: "forbidden",
@@ -214,9 +228,9 @@ RSpec.configure do |config|
       }) 
 
     # Too many trials
-    stub_http_request(:post, /.*developer_api_key.*process.*/)
+    stub_http_request(:post, /.*#{@api_key}.*process.*/)
       .with(
-      :body => /token=stub_grant_token_too_many_trials/)
+      :body => /token=#{@stub_grant_token_too_many_trials}/)
       .to_return({
         body: {
           status: "unprocessable_entity",
