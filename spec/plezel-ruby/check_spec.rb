@@ -9,7 +9,7 @@ describe "check" do
     end
 
     it "sends the right request" do
-      WebMock.should have_requested(:post, /.*\/card\/check.*/)
+      WebMock.should have_requested(:post, /.*developer_api_key.*\/card\/check.*/)
         .with(body: "card=locked_card_number&amount=2000&currency=EUR")
     end
 

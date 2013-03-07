@@ -5,6 +5,7 @@ require "rest_client"
 require "uri"
 
 # Plezel files
+require 'plezel/utils'
 require 'plezel/version'
 
 module Plezel
@@ -86,7 +87,7 @@ module Plezel
     end
 
     request.basic_auth(api_key, "")
-    request.set_form_data(options)
+    request.body = Plezel::Utils.querify(options)
     http.request(request)
   end
 end
