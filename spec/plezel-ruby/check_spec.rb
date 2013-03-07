@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe "check" do
 
-  context "a blocked card" do
+  context "a locked card" do
     before :each do
       Plezel.api_key = @api_key
       @res = Plezel.check(@locked_card_number, 2000, 'EUR')
@@ -13,12 +13,12 @@ describe "check" do
         .with(body: "card=#{@locked_card_number}&amount=2000&currency=EUR")
     end
 
-    it "response is not empty" do
-      @res.should_not be_nil
+    it "response is an object" do
+      @res.class.should eql(Plezel::CardStatus)
     end
 
-    it "returns forbidden" do
-      @res[:status].should eql("forbidden")
+    it "returns the right status" do
+      @res.status.should eql(:locked)
     end
   end
 

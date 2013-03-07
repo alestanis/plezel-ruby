@@ -5,6 +5,9 @@ require "rest_client"
 require "uri"
 
 # Plezel files
+require 'plezel/card_status'
+require 'plezel/grant'
+require 'plezel/process_status'
 require 'plezel/utils'
 require 'plezel/version'
 
@@ -31,9 +34,7 @@ module Plezel
       currency: currency
     }
     res = request('post', '/v1/card/check', api_key, params)
-
-    # TODO
-    res
+    CardStatus.new(json_response: res)
   end
 
   def self.process(token, responses, api_key = nil)
@@ -42,9 +43,7 @@ module Plezel
       responses: responses
     }
     res = request('post', '/v1/card/process', api_key, params)
-
-    # TODO
-    res
+    ProcessStatus.new(json_response: res)
   end
 
   def self.request(method, url, api_key = nil, params = {})
@@ -64,7 +63,8 @@ module Plezel
     # puts "Body: #{rbody}"
     # puts "Code: #{rcode}"
 
-    JSON.parse(rbody, {:symbolize_names => true})
+    # JSON.parse(rbody, {:symbolize_names => true})
+    rbody
   end
 
   def self.http_request(method, url, api_key, options)

@@ -17,12 +17,12 @@ describe "process" do
         .with(body: "token=grant_right&responses=%7B%22QuestionValidator%22%3D%3E%22The+answer%22%2C+%22GoogleOathValidator%22%3D%3E%22123456%22%7D")
     end
 
-    it "response is not empty" do
-      @res.should_not be_nil
+    it "response is an object" do
+      @res.class.should eql Plezel::ProcessStatus
     end
 
-    it "returns ok" do
-      @res[:status].should eql("ok")
+    it "returns a validated grant" do
+      @res.grant.validated?.should be_true
     end
   end
 
