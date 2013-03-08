@@ -5,6 +5,11 @@ module Plezel
     def to_s
       message
     end
+      
+    private
+    def http_code_to_name(code)
+      "#{code} #{Rack::Utils::HTTP_STATUS_CODES[code]}"
+    end
   end
 
   class AuthenticationError < Error
@@ -28,10 +33,5 @@ module Plezel
     def http_code
       500
     end
-  end
-
-  private
-  def http_code_to_name(code)
-    "#{code} #{Rack::Utils::HTTP_STATUS_CODES[code]}"
   end
 end
