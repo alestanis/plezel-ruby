@@ -1,4 +1,5 @@
 # External requirements
+require "base64"
 require "json"
 require "net/http"
 require "rest_client"
@@ -72,22 +73,16 @@ module Plezel
       "Accept" => "application/json",
       "Content-Type" => "application/json"
     }
-    uri = URI.parse(url)
-    http = Net::HTTP.new(uri.host, uri.port)
+    
+    resource = RestClient::Resource.new(url, api_key, nil)
 
     case method
     when 'get'
-      # res = RestClient.get(options[:url], options)
-      request = Net::HTTP::Get.new(uri.request_uri, headers)
+      res = resource.get(options, headers)
     when 'post'
-      # res = RestClient.post(options[:url], options)
-      request = Net::HTTP::Post.new(uri.request_uri, headers)
-    when 'put'
-      # res = RestClient.put(options)
+      res = resource.post(options, headers)
     end
 
-    request.basic_auth(api_key, "")
-    request.set_form_data(options)
-    http.request(request)
+    res
   end
 end

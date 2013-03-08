@@ -33,12 +33,12 @@ RSpec.configure do |config|
       :body => /card=#{@nonexistent_card_number}/)
       .to_return({
         body: {
-          status: "not_found",
+          status: "ok",
           url: "#{Plezel.api_url}/v1/card/check",
           data: {
           }
         }.to_json,
-        status: 404
+        status: 200
       })
 
     # Locked card
@@ -47,13 +47,13 @@ RSpec.configure do |config|
       :body => /card=#{@locked_card_number}/)
       .to_return({
         body: {
-          status: "forbidden",
+          status: "ok",
           url: "#{Plezel.api_url}/v1/card/check",
           data: {
             card_status: "locked"
           }
         }.to_json,
-        status: 403
+        status: 200
       })
 
     # Unlocked card
@@ -124,17 +124,16 @@ RSpec.configure do |config|
       :body => /token=#{@unknown_grant_token}/)
       .to_return({
         body: {
-          status: "not_found",
+          status: "ok",
           url: "#{Plezel.api_url}/v1/card/process",
           data: {
             grant: nil
           },
           error: {
-            message: "Grant not found.",
-            type: "not_found"
+            message: "Grant not found."
           }
         }.to_json,
-        status: 404
+        status: 200
       })
 
     # Wrong answers
@@ -143,7 +142,7 @@ RSpec.configure do |config|
       :body => /token=#{@grant_token_wrong}/)
       .to_return({
         body: {
-          status: "forbidden",
+          status: "ok",
           url: "#{Plezel.api_url}/v1/card/process",
           data: {
             grant: {
@@ -164,7 +163,7 @@ RSpec.configure do |config|
             }
           }
         }.to_json,
-        status: 403
+        status: 200
       })
 
     # Valid answers
@@ -200,8 +199,7 @@ RSpec.configure do |config|
           url: "#{Plezel.api_url}/v1/card/process",
           data: nil,
           error: {
-            message: "This grant has already been validated.",
-            type: "unprocessable_entity"
+            message: "This grant has already been validated."
           }
         }.to_json,
         status: 422
@@ -213,7 +211,7 @@ RSpec.configure do |config|
       :body => /token=#{@grant_token_expired}/)
       .to_return({
         body: {
-          status: "forbidden",
+          status: "ok",
           url: "#{Plezel.api_url}/v1/card/process",
           data: {
             grant: {
@@ -227,11 +225,10 @@ RSpec.configure do |config|
             }
           },
           error: {
-            message: "The grant has expired. Please request a new grant.",
-            type: "forbidden"
+            message: "The grant has expired. Please request a new grant."
           }
         }.to_json,
-        status: 403
+        status: 200
       }) 
 
     # Too many trials
@@ -244,8 +241,7 @@ RSpec.configure do |config|
           url: "#{Plezel.api_url}/v1/card/process",
           data: nil,
           error: {
-            message: "This grant was processed too many times. For security reasons, it has been deactivated.",
-            type: "unprocessable_entity"
+            message: "This grant was processed too many times. For security reasons, it has been deactivated."
           }
         }.to_json,
         status: 422
