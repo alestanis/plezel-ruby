@@ -5,7 +5,7 @@ module Plezel
     def to_s
       message
     end
-      
+
     private
     def http_code_to_name(code)
       "#{code} #{Rack::Utils::HTTP_STATUS_CODES[code]}"
@@ -19,7 +19,8 @@ module Plezel
 
           Plezel.api_key = <your_api_key>
 
-      If your api key does not work, please contact Plezel."
+      If your api key does not work, please contact Plezel.
+      "
     end
     def http_code
       401
@@ -28,7 +29,9 @@ module Plezel
 
   class ParseError < Error
     def message
-      "#{http_code_to_name(http_code)}: Error while parsing the response from the server. If this persists, please contact Plezel."
+      "#{http_code_to_name(http_code)}: Error while parsing the response from the server.
+      If this persists, please contact Plezel.
+      "
     end
     def http_code
       500

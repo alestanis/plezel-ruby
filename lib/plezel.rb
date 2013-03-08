@@ -2,6 +2,7 @@
 require "base64"
 require "json"
 require "net/http"
+require "rack/utils"
 require "rest_client"
 require "uri"
 
