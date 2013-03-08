@@ -4,8 +4,7 @@ module Plezel
       begin
         contents = JSON.parse(params[:json_response], {:symbolize_names => true})
       rescue => e
-        # TODO: error object
-        raise "Error while parsing the query response."
+        raise ParseError
       end
 
       if !contents[:data].nil?

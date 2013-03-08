@@ -57,12 +57,9 @@ module Plezel
 
   def self.request(method, url, api_key = nil, params = {})
     api_key ||= @api_key
-    begin
-      response = http_request(method, api_url(url), api_key, params)
-    rescue => e
-      # TODO
-      raise e
-    end
+    raise AuthenticationError if api_key.nil?
+
+    response = http_request(method, api_url(url), api_key, params)
 
     # puts "Response: #{response}"
 
@@ -81,9 +78,7 @@ module Plezel
       "Accept" => "application/json",
       "Content-Type" => "application/json"
     }
-    
     resource = RestClient::Resource.new(url, api_key, nil)
-
     case method
     when 'get'
       res = resource.get(options, headers)
@@ -92,5 +87,7 @@ module Plezel
     end
 
     res
+  rescue RestClient::Unauthorized
+    raise AuthenticationError
   end
 end

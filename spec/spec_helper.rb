@@ -7,14 +7,12 @@ RSpec.configure do |config|
 
     ## Parameters
     @api_key = "developer_api_key"
+    @bad_api_key = "bad_api_key"
     @nonexistent_card_number = "card_nonexistent"
     # Test numbers
     @locked_card_number = "4485171654136998"
     @unlocked_card_number = "5292765682753540"
     @validation_card_number = "341269125052836"
-    # @locked_card_number = "card_locked"
-    # @unlocked_card_number = "card_unlocked"
-    # @validation_card_number = "card_validation"
 
     @unknown_grant_token = "grant_unknown"
     @grant_token_wrong = "grant_wrong"
