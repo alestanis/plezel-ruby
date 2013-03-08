@@ -7,6 +7,7 @@ require "uri"
 
 # Plezel files
 require 'plezel/card_status'
+require 'plezel/errors'
 require 'plezel/grant'
 require 'plezel/process_status'
 require 'plezel/utils'
