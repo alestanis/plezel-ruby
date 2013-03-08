@@ -31,6 +31,7 @@ If the card is on validation, process the user's responses by calling
 
     response = Plezel.process(grant_token, responses)
     response.validated? # true or false
+    
 
 ## Contributing
 
