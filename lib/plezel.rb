@@ -14,10 +14,18 @@ require 'plezel/version'
 
 module Plezel
   @api_key = nil
-  @api_base = 'http://api.lvh.me:3000'
+  @api_base = 'https://api.lvh.me:9292'
 
   def self.api_url(url = '')
     @api_base + url
+  end
+
+  def self.api_base=(api_base)
+    @api_base = api_base
+  end
+
+  def self.api_base
+    @api_base
   end
 
   def self.api_key=(api_key)
