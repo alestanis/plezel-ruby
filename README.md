@@ -24,14 +24,14 @@ Set your Plezel API key using
 
 Check if a credit card is locked, unlocked or on validation by calling
 
-    response = Plezel.check(card_number, amount, currency)
+    response = Plezel.check(card_number, amount_in_cents, currency)
     response.status # :locked, :unlocked or :validation
 
 If the card is on validation, process the user's responses by calling
 
     response = Plezel.process(grant_token, responses)
     response.validated? # true or false
-    
+
 
 ## Contributing
 

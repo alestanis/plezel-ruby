@@ -20,7 +20,7 @@ module Plezel
           Plezel.api_key = <your_api_key>
 
       If your api key does not work, please contact Plezel.
-      "
+       "
     end
     def http_code
       401
