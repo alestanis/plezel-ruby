@@ -38,10 +38,10 @@ module Plezel
     @api_key
   end
 
-  def self.check(card, amount, currency, api_key = nil)
+  def self.check(card, amount_cents, currency, api_key = nil)
     params = {
       card: card,
-      amount: amount,
+      amount_cents: amount_cents,
       currency: currency
     }
     res = request('post', '/v1/card/check', api_key, params)

@@ -23,17 +23,18 @@ RSpec.configure do |config|
  
   # end
   # def not_executed
- 
+
     ## /check
     # Non-existent card
     stub_http_request(:post, /.*#{@api_key}.*check.*/)
-      .with(
-      :body => /card=#{@nonexistent_card_number}/)
+      .with(body: /card[number]=#{@nonexistent_card_number}/)
       .to_return({
         body: {
           status: "ok",
-          url: "#{Plezel.api_url}/v1/card/check",
+          url: "#{Plezel.api_base}/v1/card/check",
+          pricing: 1.0,
           data: {
+            card_status: "not_found"
           }
         }.to_json,
         status: 200
@@ -41,12 +42,12 @@ RSpec.configure do |config|
 
     # Locked card
     stub_http_request(:post, /.*#{@api_key}.*check.*/)
-      .with(
-      :body => /card=#{@locked_card_number}/)
+      .with(body: /card\[number\]=#{@locked_card_number}/)
       .to_return({
         body: {
           status: "ok",
-          url: "#{Plezel.api_url}/v1/card/check",
+          url: "#{Plezel.api_base}/v1/card/check",
+          pricing: 2.0,
           data: {
             card_status: "locked"
           }
@@ -56,12 +57,12 @@ RSpec.configure do |config|
 
     # Unlocked card
     stub_http_request(:post, /.*#{@api_key}.*check.*/)
-      .with(
-      :body => /card=#{@unlocked_card_number}/)
+      .with(body: /card[number]=#{@unlocked_card_number}/)
       .to_return({
         body: {
           status: "ok",
-          url: "#{Plezel.api_url}/v1/card/check",
+          url: "#{Plezel.api_base}/v1/card/check",
+          pricing: 2.0,
           data: {
             card_status: "unlocked"
           }
@@ -71,42 +72,26 @@ RSpec.configure do |config|
 
     # Validation card
     stub_http_request(:post, /.*#{@api_key}.*check.*/)
-      .with(
-      :body => /card=#{@validation_card_number}/)
+      .with(body: /card[number]=#{@validation_card_number}/)
       .to_return({
         body: {
           status: "ok",
-          url: "#{Plezel.api_url}/v1/card/check",
+          url: "#{Plezel.api_base}/v1/card/check",
+          pricing: 2.0,
           data: {
             card_status: "validation",
             grant: {
-              amount: 2000,
-              created_at: "2013-03-06T23:21:49Z",
+              amount_cents: 2000,
+              created_at: "2013-03-17T16:01:03Z",
               currency: "EUR",
-              merchant_id: "stub_merchant_id",
-              token: "stub_grant_token",
+              merchant_id: "514250df8fe097913b000006",
+              token: "RIS9v6bCEjf4OAzd2d0Ulw",
               trials: 0,
               validated: false,
               validations: [
                 {
-                  type: "EmailValidator",
-                  label: "Code in validation e-mail"
-                },
-                {
-                  type: "GoogleOathValidator",
-                  label: "Google Authenticator Code"
-                },
-                {
-                  type: "IpValidator",
-                  label: "User's IP address"
-                },
-                {
                   type: "QuestionValidator",
-                  label: "The answer"
-                },
-                {
-                  type: "SmsValidator",
-                  label: "Code in validation SMS"
+                  label: "My secret question"
                 }
               ]
             }
@@ -118,12 +103,12 @@ RSpec.configure do |config|
     ## /process
     # Unexistent grant
     stub_http_request(:post, /.*#{@api_key}.*process.*/)
-      .with(
-      :body => /token=#{@unknown_grant_token}/)
+      .with(body: /token=#{@unknown_grant_token}/)
       .to_return({
         body: {
           status: "ok",
-          url: "#{Plezel.api_url}/v1/card/process",
+          url: "#{Plezel.api_base}/v1/card/process",
+          pricing: 0.0,
           data: {
             grant: nil
           },
@@ -136,27 +121,23 @@ RSpec.configure do |config|
 
     # Wrong answers
     stub_http_request(:post, /.*#{@api_key}.*process.*/)
-      .with(
-      :body => /token=#{@grant_token_wrong}/)
+      .with(body: /token=#{@grant_token_wrong}/)
       .to_return({
         body: {
           status: "ok",
-          url: "#{Plezel.api_url}/v1/card/process",
+          url: "#{Plezel.api_base}/v1/card/process",
+          pricing: 2.0,
           data: {
             grant: {
-              amount: 2000,
-              created_at: "2013-03-06T23:32:51Z",
+              amount_cents: 2000,
+              created_at: "2013-03-17T16:01:03Z",
               currency: "EUR",
-              merchant_id: "stub_merchant_id",
-              token: "stub_grant_token",
+              merchant_id: "514250df8fe097913b000006",
+              token: "RIS9v6bCEjf4OAzd2d0Ulw",
               trials: 1,
               validated: false,
               errors: [
-                "Wrong email validation code.",
-                "Wrong Google Authenticator code.",
-                "Transactions are not allowed from this IP.",
-                "Wrong answer to the secret question.",
-                "Wrong SMS validation code."
+                "Wrong answer to the secret question."
               ]
             }
           }
@@ -166,20 +147,20 @@ RSpec.configure do |config|
 
     # Valid answers
     stub_http_request(:post, /.*#{@api_key}.*process.*/)
-      .with(
-      :body => /token=#{@grant_token_right}/)
+      .with(body: /token=#{@grant_token_right}/)
       .to_return({
         body: {
           status: "ok",
-          url: "#{Plezel.api_url}/v1/card/process",
+          url: "#{Plezel.api_base}/v1/card/process",
+          pricing: 2.0,
           data: {
             grant: {
-              amount: 2000,
-              created_at: "2013-03-06T23:39:32Z",
+              amount_cents: 2000,
+              created_at: "2013-03-17T16:01:03Z",
               currency: "EUR",
-              merchant_id: "stub_merchant_id",
-              token: "stub_grant_token",
-              trials: 1,
+              merchant_id: "514250df8fe097913b000006",
+              token: "RIS9v6bCEjf4OAzd2d0Ulw",
+              trials: 2,
               validated: true
             }
           }
@@ -189,12 +170,12 @@ RSpec.configure do |config|
 
     # Already validated answers
     stub_http_request(:post, /.*#{@api_key}.*process.*/)
-      .with(
-      :body => /token=#{@grant_token_already_validated}/)
+      .with(body: /token=#{@grant_token_already_validated}/)
       .to_return({
         body: {
           status: "unprocessable_entity",
-          url: "#{Plezel.api_url}/v1/card/process",
+          url: "#{Plezel.api_base}/v1/card/process",
+          pricing: 0.0,
           data: nil,
           error: {
             message: "This grant has already been validated."
@@ -202,23 +183,39 @@ RSpec.configure do |config|
         }.to_json,
         status: 422
       })
-    
+
+    # Too many trials
+    stub_http_request(:post, /.*#{@api_key}.*process.*/)
+      .with(body: /token=#{@grant_token_too_many_trials}/)
+      .to_return({
+        body: {
+          status: "unprocessable_entity",
+          url: "#{Plezel.api_base}/v1/card/process",
+          pricing: 0.0,
+          data: nil,
+          error: {
+            message: "This grant was processed too many times. For security reasons, it has been deactivated."
+          }
+        }.to_json,
+        status: 422
+      })
+
     # Expired grant
     stub_http_request(:post, /.*#{@api_key}.*process.*/)
-      .with(
-      :body => /token=#{@grant_token_expired}/)
+      .with(body: /token=#{@grant_token_expired}/)
       .to_return({
         body: {
           status: "ok",
-          url: "#{Plezel.api_url}/v1/card/process",
+          url: "#{Plezel.api_base}/v1/card/process",
+          pricing: 1.0,
           data: {
             grant: {
-              amount: 2000,
-              created_at: "2013-03-06T23:35:20Z",
+              amount_cents: 700,
+              created_at: "2012-12-23T00:45:25Z",
               currency: "EUR",
-              merchant_id: "stub_merchant_id",
-              token: "stub_grant_token",
-              trials: 1,
+              merchant_id: "514250e08fe097913b00000c",
+              token: "u9qjV-A8zEa0cFZGV9xY8Q",
+              trials: 0,
               validated: false
             }
           },
@@ -227,22 +224,7 @@ RSpec.configure do |config|
           }
         }.to_json,
         status: 200
-      }) 
+      })
 
-    # Too many trials
-    stub_http_request(:post, /.*#{@api_key}.*process.*/)
-      .with(
-      :body => /token=#{@grant_token_too_many_trials}/)
-      .to_return({
-        body: {
-          status: "unprocessable_entity",
-          url: "#{Plezel.api_url}/v1/card/process",
-          data: nil,
-          error: {
-            message: "This grant was processed too many times. For security reasons, it has been deactivated."
-          }
-        }.to_json,
-        status: 422
-      }) 
   end
 end
