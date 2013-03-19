@@ -6,8 +6,8 @@ require 'plezel/version'
 Gem::Specification.new do |spec|
   spec.name          = "plezel-ruby"
   spec.version       = Plezel::VERSION
-  spec.authors       = ["alejandra"]
-  spec.email         = ["ale.estanislao@gmail.com"]
+  spec.authors       = ["Plezel"]
+  spec.email         = ["plezelapp@gmail.com"]
   spec.description   = "Ruby binder for the Plezel API."
   spec.summary       = "Ruby binder for the Plezel API."
   spec.homepage      = "https://github.com/alestanis/plezel-ruby"
